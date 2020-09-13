@@ -1,8 +1,8 @@
 package com.avacallery;
 
 public class MortgageCalculator {
-    public final static byte MONTHS_PER_YEAR = 12;
-    public final static byte PERCENT = 100;
+    private final static byte MONTHS_PER_YEAR = 12;
+    private final static byte PERCENT = 100;
 
     //encapsulate instance fields
     // the data that we store here represent the state of our calculator object
@@ -42,6 +42,13 @@ public class MortgageCalculator {
         return mortgage;
     }
 
+    public double[] getRemainingBalances() {
+        var balances = new double[getNumberOfPayments()];
+        for (short month = 1; month <= balances.length; month++)
+            balances[month - 1] = calculateBalance(month);
+        return balances;
+    }
+
     // these two methods are private bc of implementation detail
     private float getMonthlyInterest() {
         return annualInterest / PERCENT / MONTHS_PER_YEAR;
@@ -49,10 +56,5 @@ public class MortgageCalculator {
 
     private int getNumberOfPayments() {
         return years * MONTHS_PER_YEAR;
-    }
-
-    // getYears is public because other classes need to use it
-    public short getYears() {
-        return years;
     }
 }
